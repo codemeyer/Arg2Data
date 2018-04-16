@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net45;net40</TargetFrameworks>
+    <Authors>Fredrik Meyer</Authors>
+    <Description>API for reading track data Grand Prix 2 by Microprose</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/codemeyer/Arg2Data</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/codemeyer/Arg2Data</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/codemeyer/Arg2Data/blob/master/LICENSE</PackageLicenseUrl>
+    <Copyright>Copyright © 2018 Fredrik Meyer</Copyright>
+    <PackageTags>GP2</PackageTags>
+    <PackageIconUrl>http://manicomio.se/argdata/icon/argdata-64x64.png</PackageIconUrl>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\Arg2Data.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\Arg2Data.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+    <DocumentationFile>bin\Release\net45\Arg2Data.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
+    <DocumentationFile>bin\Release\net40\Arg2Data.xml</DocumentationFile>
+  </PropertyGroup>
+
+</Project>

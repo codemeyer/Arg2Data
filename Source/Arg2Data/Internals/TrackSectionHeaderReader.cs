@@ -11,7 +11,7 @@ namespace Arg2Data.Internals
 
             byte kerbTypeByte = trackFileReader.ReadByte(offset + 18);
             short pitsValue = trackFileReader.ReadInt16(offset + 14);
-            
+
             var header = new TrackSectionHeader
             {
                 FirstSectionAngle = trackFileReader.ReadUInt16(offset),

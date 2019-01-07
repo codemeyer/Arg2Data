@@ -56,7 +56,8 @@ namespace Arg2Data.Tests
                     ComputerCarSetup = 0x7e8e,
                     PitLaneData = 0x7eb4
                 },
-                KnownBestLineSectionDataStart = 30982
+                KnownBestLineSectionDataStart = 30982,
+                KnownComputerCarBehaviorStart = 33596
             };
         }
 
@@ -97,5 +98,7 @@ namespace Arg2Data.Tests
 
         public int KnownTrackSectionDataStart => KnownOffsets.TrackData + KnownHeaderLength;
         public int KnownBestLineSectionDataStart { get; set; }
+
+        public int KnownComputerCarBehaviorStart { get; set; }
     }
 }

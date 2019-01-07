@@ -44,5 +44,41 @@
         /// Gets the ratio of the sixth gear. Must be greater than GearRatio5 and less than or equal to 80.
         /// </summary>
         public byte GearRatio6 { get; internal set; } = 61;
+
+        /// <summary>
+        /// Gets or sets the tyre compound.
+        /// </summary>
+        public SetupTyreCompound TyreCompound { get; set; } = SetupTyreCompound.C;
+
+        /// <summary>
+        /// Gets or sets the brake balance value. Allowed values between -32 (Rear) and 32 (Front).
+        /// </summary>
+        public sbyte BrakeBalance { get; set; }
+    }
+
+    /// <summary>
+    /// Tyre compound in setup file. Can be A, B, C or D.
+    /// </summary>
+    public enum SetupTyreCompound
+    {
+        /// <summary>
+        /// Tyre compound A, the hardest tyre.
+        /// </summary>
+        A = 0,
+
+        /// <summary>
+        /// Tyre compound B.
+        /// </summary>
+        B = 1,
+
+        /// <summary>
+        /// Tyre compound C.
+        /// </summary>
+        C = 2,
+
+        /// <summary>
+        /// Tyre compound D, the softest tyre (except qualifying tyres).
+        /// </summary>
+        D = 3
     }
 }

@@ -34,7 +34,7 @@ namespace Arg2Data.Entities
         /// Gets or sets the start width of the track.
         /// </summary>
         public short StartWidth { get; set; }
-        
+
         //public SurroundingArea SurroundingArea { get; set; }
 
         /// <summary>
@@ -61,12 +61,12 @@ namespace Arg2Data.Entities
         /// Gets the kerb lower color of untextured kerbs. Is it actually used in GP2?
         /// </summary>
         public byte KerbLowerColor { get; set; }
-        
+
         /// <summary>
         /// Gets the alternate kerb upper color of untextured kerbs. Is it actually used in GP2?
         /// </summary>
         public byte KerbUpperColor2 { get; set; }
-        
+
         /// <summary>
         /// Gets the alternate kerb lower color of untextured kerbs. Is it actually used in GP2?
         /// </summary>

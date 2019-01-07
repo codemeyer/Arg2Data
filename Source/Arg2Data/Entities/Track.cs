@@ -13,7 +13,6 @@ namespace Arg2Data.Entities
         public Track()
         {
             Offsets = new TrackOffsets();
-            //RawData = new TrackRawData();
             ObjectShapes = new List<TrackObjectShape>();
             ObjectSettings = new List<TrackObjectSettings>();
             TrackDataHeader = new TrackSectionHeader();
@@ -21,6 +20,7 @@ namespace Arg2Data.Entities
             BestLineSegments = new List<TrackBestLineSegment>();
             ComputerCarSetup = new Setup();
             PitLaneSections = new List<TrackSection>();
+            ComputerCarBehavior = new ComputerCarBehavior();
         }
 
         /// <summary>
@@ -68,6 +68,9 @@ namespace Arg2Data.Entities
         /// </summary>
         public IList<TrackSection> PitLaneSections { get; internal set; }
 
-        //public TrackRawData RawData { get; set; }
+        /// <summary>
+        /// Computer car behavior.
+        /// </summary>
+        public ComputerCarBehavior ComputerCarBehavior { get; set; }
     }
 }

@@ -11,7 +11,8 @@ namespace Arg2Data.Tests
         public void AidaDataIntegration()
         {
             var trackData = TrackFactsHelper.GetTrackAida();
-            var track = TrackReader.Read(trackData.Path);
+            var trackReader = new TrackReader();
+            var track = trackReader.Read(trackData.Path);
 
             track.TrackSections.Count.Should().Be(70);
             track.PitLaneSections.Count.Should().Be(24);
@@ -22,7 +23,8 @@ namespace Arg2Data.Tests
         public void MonacoDataIntegration()
         {
             var trackData = TrackFactsHelper.GetTrackMonaco();
-            var track = TrackReader.Read(trackData.Path);
+            var trackReader = new TrackReader();
+            var track = trackReader.Read(trackData.Path);
 
             track.TrackSections.Count.Should().Be(132);
             track.PitLaneSections.Count.Should().Be(22);
@@ -33,7 +35,8 @@ namespace Arg2Data.Tests
         public void MontrealDataIntegration()
         {
             var trackData = TrackFactsHelper.GetTrackMontreal();
-            var track = TrackReader.Read(trackData.Path);
+            var trackReader = new TrackReader();
+            var track = trackReader.Read(trackData.Path);
 
             track.TrackSections.Count.Should().Be(78);
             track.PitLaneSections.Count.Should().Be(26);
@@ -43,13 +46,16 @@ namespace Arg2Data.Tests
 
             track.BestLineHeader.LineStartX.Should().Be(4);
             track.ComputerCarSetup.FrontWing.Should().Be(11);
+
+            track.ComputerCarBehavior.LapCount.Should().Be(69);
         }
 
         [Fact]
         public void SilverstoneDataIntegration()
         {
             var trackData = TrackFactsHelper.GetTrackSilverstone();
-            var track = TrackReader.Read(trackData.Path);
+            var trackReader = new TrackReader();
+            var track = trackReader.Read(trackData.Path);
 
             track.TrackSections.Count.Should().Be(125);
         }

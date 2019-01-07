@@ -15,13 +15,13 @@ namespace Arg2Data.Tests.Internals
         {
             var trackDataMontreal = TrackFactsHelper.GetTrackMontreal();
             _montrealTrackSections = TrackSectionReader.Read(trackDataMontreal.Path, trackDataMontreal.KnownTrackSectionDataStart,
-                new TrackCommandOptions { Command0xC5Length= 7 });
+                new TrackSectionCommandOptions { Command0xC5Length= 7 });
 
             var trackDataSilverstone = TrackFactsHelper.GetTrackSilverstone();
             _silverstoneTrackSections = TrackSectionReader.Read(trackDataSilverstone.Path, trackDataSilverstone.KnownTrackSectionDataStart,
-                new TrackCommandOptions { Command0xC5Length= 8 });
+                new TrackSectionCommandOptions { Command0xC5Length= 8 });
         }
-        
+
         [Fact]
         public void Montreal_SectionCount_78()
         {

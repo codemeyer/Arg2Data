@@ -6,7 +6,7 @@ namespace Arg2Data.Internals
 {
     internal static class TrackSectionReader
     {
-        public static TrackSectionReadingResult Read(string path, int startPosition, TrackCommandOptions options)
+        public static TrackSectionReadingResult Read(string path, int startPosition, TrackSectionCommandOptions options)
         {
             var trackFileReader = new FileReader(path);
 
@@ -30,7 +30,7 @@ namespace Arg2Data.Internals
                 {
                     // is command
 
-                    var argCount = TrackCommandFactory.GetArgumentCountForCommand(byte2, options);
+                    var argCount = TrackSectionCommandFactory.GetArgumentCountForCommand(byte2, options);
 
                     short[] arguments = new short[argCount];
 
@@ -42,7 +42,7 @@ namespace Arg2Data.Internals
                         arguments[i] = trackFileReader.ReadInt16(currentPosition);
                     }
 
-                    currentSection.Commands.Add(TrackCommandFactory.Get(byte2, arguments));
+                    currentSection.Commands.Add(TrackSectionCommandFactory.Get(byte2, arguments));
 
                     currentPosition += 2;
 
@@ -70,7 +70,7 @@ namespace Arg2Data.Internals
         }
     }
 
-    internal class TrackCommandOptions
+    internal class TrackSectionCommandOptions
     {
         internal int Command0xC5Length { get; set; }
     }

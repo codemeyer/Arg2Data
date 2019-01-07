@@ -28,7 +28,7 @@ namespace Arg2Data
                 track.ObjectSettings = TrackObjectSettingsReader.Read(path, track.Offsets.ObjectData, track.Offsets.TrackData);
                 track.TrackDataHeader = TrackSectionHeaderReader.Read(path, track.Offsets.TrackData);
 
-                var options = new TrackCommandOptions();
+                var options = new TrackSectionCommandOptions();
                 options.Command0xC5Length = track.TrackDataHeader.CommandLength0xC5;
 
                 var sectionReading = TrackSectionReader.Read(path, track.Offsets.TrackData + track.TrackDataHeader.GetHeaderLength(), options);

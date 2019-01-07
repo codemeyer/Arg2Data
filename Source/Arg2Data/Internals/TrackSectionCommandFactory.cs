@@ -3,14 +3,14 @@ using Arg2Data.Entities;
 
 namespace Arg2Data.Internals
 {
-    internal static class TrackCommandFactory
+    internal static class TrackSectionCommandFactory
     {
-        public static TrackCommand Get(byte command, short[] arguments)
+        public static TrackSectionCommand Get(byte command, short[] arguments)
         {
-            return new TrackCommand(command, arguments);
+            return new TrackSectionCommand(command, arguments);
         }
 
-        internal static int GetArgumentCountForCommand(byte command, TrackCommandOptions options)
+        internal static int GetArgumentCountForCommand(byte command, TrackSectionCommandOptions options)
         {
             if (command == 0xc5)
             {

@@ -3,9 +3,9 @@ namespace Arg2Data.Entities
     /// <summary>
     /// Track command that adds features to the track section it belongs to.
     /// </summary>
-    public class TrackCommand
+    public class TrackSectionCommand
     {
-        internal TrackCommand(byte command, short[] arguments)
+        internal TrackSectionCommand(byte command, short[] arguments)
         {
             Command = command;
             Arguments = arguments;

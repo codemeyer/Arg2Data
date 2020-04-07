@@ -3,7 +3,7 @@
     /// <summary>
     /// Best line/computer car line header.
     /// </summary>
-    public class TrackBestLineHeader
+    public class TrackComputerCarLineHeader
     {
         /// <summary>
         /// Gets the LineStartX value.

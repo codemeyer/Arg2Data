@@ -10,7 +10,7 @@ namespace Arg2Data.Internals
         {
             var trackFileReader = new FileReader(path);
 
-            var header = new TrackBestLineHeader();
+            var header = new TrackComputerCarLineHeader();
             header.LineStartX = trackFileReader.ReadByte(startPosition);
             header.LineStartXHigh = trackFileReader.ReadByte(startPosition + 1);
             header.LineStartY = trackFileReader.ReadByte(startPosition + 2);
@@ -19,7 +19,7 @@ namespace Arg2Data.Internals
             header.Unknown3 = trackFileReader.ReadUInt16(startPosition + 8);
             header.Unknown4 = trackFileReader.ReadUInt16(startPosition + 10);
 
-            var segments = new List<TrackBestLineSegment>();
+            var segments = new List<TrackComputerCarLineSegment>();
             int position = startPosition + 12;
 
             while (true)
@@ -32,7 +32,7 @@ namespace Arg2Data.Internals
                     break;
                 }
 
-                var segment = new TrackBestLineSegment();
+                var segment = new TrackComputerCarLineSegment();
 
                 segment.Length = trackFileReader.ReadByte(position);
                 segment.Command = trackFileReader.ReadByte(position + 1);

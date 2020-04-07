@@ -17,7 +17,7 @@ namespace Arg2Data.Entities
             ObjectSettings = new List<TrackObjectSettings>();
             TrackDataHeader = new TrackSectionHeader();
             TrackSections = new List<TrackSection>();
-            BestLineSegments = new List<TrackBestLineSegment>();
+            ComputerCarLineSegments = new List<TrackComputerCarLineSegment>();
             ComputerCarSetup = new Setup();
             PitLaneSections = new List<TrackSection>();
             ComputerCarBehavior = new ComputerCarBehavior();
@@ -29,48 +29,53 @@ namespace Arg2Data.Entities
         public TrackOffsets Offsets { get; internal set; }
 
         /// <summary>
-        /// Object 3D shapes.
+        /// Gets the list of object shapes.
         /// </summary>
         public IList<TrackObjectShape> ObjectShapes { get; internal set; }
 
         /// <summary>
-        /// List of object settings.
+        /// Gets the list of object settings.
         /// </summary>
         public IList<TrackObjectSettings> ObjectSettings { get; internal set; }
 
         /// <summary>
-        /// List of track sections.
+        /// Gets the list of track sections.
         /// </summary>
         public IList<TrackSection> TrackSections { get; internal set; }
 
         /// <summary>
-        /// Track data header.
+        /// Gets the track data header.
         /// </summary>
         public TrackSectionHeader TrackDataHeader { get; internal set; }
 
         /// <summary>
         /// Best line header.
         /// </summary>
-        public TrackBestLineHeader BestLineHeader { get; internal set; }
+        public TrackComputerCarLineHeader ComputerCarLineHeader { get; internal set; }
 
         /// <summary>
         /// List of best line segments.
         /// </summary>
-        public IList<TrackBestLineSegment> BestLineSegments { get; internal set; }
+        public IList<TrackComputerCarLineSegment> ComputerCarLineSegments { get; internal set; }
 
         /// <summary>
-        /// Computer car setup.
+        /// Gets the computer car setup.
         /// </summary>
         public Setup ComputerCarSetup { get; set; }
 
         /// <summary>
-        /// List of pit lane sections.
+        /// Gets the list of pit lane sections.
         /// </summary>
         public IList<TrackSection> PitLaneSections { get; internal set; }
 
         /// <summary>
-        /// Computer car behavior.
+        /// Gets the computer car behavior.
         /// </summary>
         public ComputerCarBehavior ComputerCarBehavior { get; set; }
+
+        /// <summary>
+        /// Gets the track settings.
+        /// </summary>
+        public TrackSettings TrackSettings { get; internal set; }
     }
 }

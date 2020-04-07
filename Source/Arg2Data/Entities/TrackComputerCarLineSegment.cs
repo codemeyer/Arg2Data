@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a segment of the best line/computer car line.
     /// </summary>
-    public class TrackBestLineSegment
+    public class TrackComputerCarLineSegment
     {
         /// <summary>
         /// Gets the length of the segment.

@@ -7,12 +7,15 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/codemeyer/Arg2Data</PackageProjectUrl>
     <RepositoryUrl>https://github.com/codemeyer/Arg2Data</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/codemeyer/Arg2Data/blob/master/LICENSE.md</PackageLicenseUrl>
-    <Copyright>Copyright © 2018-2019 Fredrik Meyer</Copyright>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <Copyright>Copyright © 2018-2020 Fredrik Meyer</Copyright>
     <PackageTags>GP2</PackageTags>
-    <PackageIconUrl>http://www.argtools.com/media/icons/arg2data-64x64.png</PackageIconUrl>
+    <PackageIconUrl></PackageIconUrl>
     <VersionPrefix>0.1.1</VersionPrefix>
     <VersionSuffix></VersionSuffix>
+    <Version>0.2</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>arg2data-64x64.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
@@ -30,5 +33,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
     <DocumentationFile>bin\Release\net40\Arg2Data.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Properties\arg2data-64x64.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

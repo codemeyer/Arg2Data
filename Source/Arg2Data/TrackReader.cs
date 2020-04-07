@@ -35,8 +35,8 @@ namespace Arg2Data
                 track.TrackSections = sectionReading.TrackSections;
 
                 var bestLines = BestLineReader.Read(path, sectionReading.Position);
-                track.BestLineHeader = bestLines.Header;
-                track.BestLineSegments = bestLines.BestLineSegments;
+                track.ComputerCarLineHeader = bestLines.Header;
+                track.ComputerCarLineSegments = bestLines.Segments;
 
                 var setup = ComputerCarDataReader.Read(reader, track.Offsets.ComputerCarSetup);
                 track.ComputerCarSetup = setup.Setup;
@@ -68,8 +68,15 @@ namespace Arg2Data
                     }
                 }
 
+                var posBefore = reader.BaseStream.Position;
+
                 var behavior = ComputerCarBehaviorReader.Read(reader, (int)reader.BaseStream.Position);
                 track.ComputerCarBehavior = behavior;
+
+                reader.BaseStream.Position = posBefore;
+
+                var settings = TrackSettingsReader.Read(reader, (int)reader.BaseStream.Position);
+                track.TrackSettings = settings;
 
                 return track;
             }

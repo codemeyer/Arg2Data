@@ -16,7 +16,7 @@ namespace Arg2Data.Tests
 
             track.TrackSections.Count.Should().Be(70);
             track.PitLaneSections.Count.Should().Be(24);
-            track.BestLineSegments.Count.Should().Be(53);
+            track.ComputerCarLineSegments.Count.Should().Be(53);
         }
 
         [Fact]
@@ -28,7 +28,9 @@ namespace Arg2Data.Tests
 
             track.TrackSections.Count.Should().Be(132);
             track.PitLaneSections.Count.Should().Be(22);
-            track.BestLineSegments.Count.Should().Be(68);
+            track.ComputerCarLineSegments.Count.Should().Be(68);
+
+            track.TrackSettings.LapCount.Should().Be(78);
         }
 
         [Fact]
@@ -40,14 +42,14 @@ namespace Arg2Data.Tests
 
             track.TrackSections.Count.Should().Be(78);
             track.PitLaneSections.Count.Should().Be(26);
-            track.BestLineSegments.Count.Should().Be(48);
+            track.ComputerCarLineSegments.Count.Should().Be(48);
             track.ObjectShapes.Count.Should().Be(31);
             track.ObjectSettings.Count.Should().Be(153);
 
-            track.BestLineHeader.LineStartX.Should().Be(4);
+            track.ComputerCarLineHeader.LineStartX.Should().Be(4);
             track.ComputerCarSetup.FrontWing.Should().Be(11);
 
-            track.ComputerCarBehavior.LapCount.Should().Be(69);
+            track.TrackSettings.LapCount.Should().Be(69);
         }
 
         [Fact]

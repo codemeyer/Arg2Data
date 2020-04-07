@@ -5,17 +5,17 @@ namespace Arg2Data.Internals
 {
     internal class TrackBestLineReadResult
     {
-        public TrackBestLineReadResult(int positionAfterReading, TrackBestLineHeader header, List<TrackBestLineSegment> bestLineSegments)
+        public TrackBestLineReadResult(int positionAfterReading, TrackComputerCarLineHeader header, List<TrackComputerCarLineSegment> segments)
         {
             PositionAfterReading = positionAfterReading;
             Header = header;
-            BestLineSegments = bestLineSegments;
+            Segments = segments;
         }
 
         public int PositionAfterReading { get; private set; }
 
-        public TrackBestLineHeader Header { get; set; }
+        public TrackComputerCarLineHeader Header { get; set; }
 
-        public List<TrackBestLineSegment> BestLineSegments { get; set; }
+        public List<TrackComputerCarLineSegment> Segments { get; set; }
     }
 }

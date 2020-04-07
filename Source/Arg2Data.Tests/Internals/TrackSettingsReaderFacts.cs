@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Arg2Data.Tests.Internals
 {
-    public class ComputerCarBehaviorReaderFacts
+    public class TrackSettingsReaderFacts
     {
         [Fact]
         public void Read_MontrealTrack_HasExpectedBehaviorData()
@@ -14,9 +14,9 @@ namespace Arg2Data.Tests.Internals
 
             using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackData.Path)))
             {
-                var behavior = ComputerCarBehaviorReader.Read(reader, trackData.KnownComputerCarBehaviorStart);
+                var settings = TrackSettingsReader.Read(reader, trackData.KnownComputerCarBehaviorStart);
 
-                behavior.LapCount.Should().Be(69);
+                settings.LapCount.Should().Be(69);
             }
         }
     }

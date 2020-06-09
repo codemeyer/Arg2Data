@@ -1,3 +1,4 @@
+using System.IO;
 using Arg2Data.Entities;
 using Arg2Data.Internals;
 using FluentAssertions;
@@ -11,32 +12,39 @@ namespace Arg2Data.Tests.Internals
         public void MontrealHeader()
         {
             var trackData = TrackFactsHelper.GetTrackMontreal();
-            var header = TrackSectionHeaderReader.Read(trackData.Path, trackData.KnownOffsets.TrackData);
+            using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackData.Path)))
+            {
+                var header = TrackSectionHeaderReader.Read(reader, trackData.KnownOffsets.TrackData);
 
-            header.FirstSectionAngle.Should().Be(65354);
-            header.FirstSectionHeight.Should().Be(0);
-            header.TrackCenterX.Should().Be(13000);
-            header.TrackCenterZ.Should().Be(1328);
-            header.TrackCenterY.Should().Be(-4299);
-            header.StartWidth.Should().Be(1203);
+                header.FirstSectionAngle.Should().Be(65354);
+                header.FirstSectionHeight.Should().Be(0);
+                header.TrackCenterX.Should().Be(13000);
+                header.TrackCenterZ.Should().Be(1328);
+                header.TrackCenterY.Should().Be(-4299);
+                header.StartWidth.Should().Be(1203);
 
-            header.PitsSide.Should().Be(TrackSide.Left);
+                header.PoleSide.Should().Be(TrackSide.Left);
+                header.PitsSide.Should().Be(TrackSide.Left);
 
-            header.CommandLength0xC5.Should().Be(7);
+                header.CommandLength0xC5.Should().Be(7);
 
-            header.LeftVergeStartWidth.Should().Be(8);
-            header.RightVergeStartWidth.Should().Be(20);
+                header.LeftVergeStartWidth.Should().Be(8);
+                header.RightVergeStartWidth.Should().Be(20);
+            }
         }
 
         [Fact]
         public void SilverstoneHeader()
         {
             var trackData = TrackFactsHelper.GetTrackSilverstone();
-            var header = TrackSectionHeaderReader.Read(trackData.Path, trackData.KnownOffsets.TrackData);
+            using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackData.Path)))
+            {
+                var header = TrackSectionHeaderReader.Read(reader, trackData.KnownOffsets.TrackData);
 
-            header.PitsSide.Should().Be(TrackSide.Right);
+                header.PitsSide.Should().Be(TrackSide.Right);
 
-            header.CommandLength0xC5.Should().Be(8);
+                header.CommandLength0xC5.Should().Be(8);
+            }
         }
     }
 }

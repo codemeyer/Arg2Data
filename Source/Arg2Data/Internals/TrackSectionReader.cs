@@ -1,25 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Arg2Data.Entities;
-using Arg2Data.IO;
 
 namespace Arg2Data.Internals
 {
     internal static class TrackSectionReader
     {
-        public static TrackSectionReadingResult Read(string path, int startPosition, TrackSectionCommandOptions options)
+        public static TrackSectionReadingResult Read(BinaryReader reader, int startPosition, TrackSectionCommandOptions options)
         {
-            var trackFileReader = new FileReader(path);
-
             var sections = new List<TrackSection>();
 
-            int currentPosition = startPosition;
+            reader.BaseStream.Position = startPosition;
 
             var currentSection = new TrackSection();
 
             while (true)
             {
-                byte byte1 = trackFileReader.ReadByte(currentPosition);
-                byte byte2 = trackFileReader.ReadByte(currentPosition + 1);
+                byte byte1 = reader.ReadByte();
+                byte byte2 = reader.ReadByte();
 
                 if (byte1 == 255 && byte2 == 255)
                 {
@@ -35,7 +33,6 @@ namespace Arg2Data.Internals
                 if (byte2 > 0)
                 {
                     // is command
-
                     var argCount = TrackSectionCommandFactory.GetArgumentCountForCommand(byte2, options);
 
                     short[] arguments = new short[argCount];
@@ -44,32 +41,28 @@ namespace Arg2Data.Internals
 
                     for (int i = 1; i < argCount; i++)
                     {
-                        currentPosition += 2;
-                        arguments[i] = trackFileReader.ReadInt16(currentPosition);
+                        arguments[i] = reader.ReadInt16();
                     }
 
                     currentSection.Commands.Add(TrackSectionCommandFactory.Get(byte2, arguments));
-
-                    currentPosition += 2;
 
                     continue;
                 }
 
                 // section
                 currentSection.Length = byte1;
-                currentSection.Curvature = trackFileReader.ReadInt16(currentPosition + 2);
-                currentSection.Height = trackFileReader.ReadInt16(currentPosition + 4);
-                currentSection.Flags = trackFileReader.ReadInt16(currentPosition + 6);
-                currentSection.RightVergeWidth = trackFileReader.ReadByte(currentPosition + 8);
-                currentSection.LeftVergeWidth = trackFileReader.ReadByte(currentPosition + 9);
+                currentSection.Curvature = reader.ReadInt16();
+                currentSection.Height = reader.ReadInt16();
+                currentSection.Flags = reader.ReadInt16();
+                currentSection.RightVergeWidth = reader.ReadByte();
+                currentSection.LeftVergeWidth = reader.ReadByte();
                 sections.Add(currentSection);
 
                 currentSection = new TrackSection();
-
-                currentPosition += 10;
             }
 
-            return new TrackSectionReadingResult(currentPosition + 2, sections);
+            int position = (int)reader.BaseStream.Position;
+            return new TrackSectionReadingResult(position, sections);
         }
     }
 

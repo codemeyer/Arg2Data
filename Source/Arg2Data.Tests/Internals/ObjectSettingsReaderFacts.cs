@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Arg2Data.Entities;
 using Arg2Data.Internals;
 using FluentAssertions;
@@ -9,18 +10,25 @@ namespace Arg2Data.Tests.Internals
     public class ObjectSettingsReaderFacts
     {
         private readonly IList<TrackObjectSettings> _montrealObjectSettings;
-
         private readonly List<TrackObjectSettings> _silverstoneObjectSettings;
 
         public ObjectSettingsReaderFacts()
         {
             var trackDataMontreal = TrackFactsHelper.GetTrackMontreal();
-            _montrealObjectSettings = TrackObjectSettingsReader.Read(trackDataMontreal.Path,
-                trackDataMontreal.KnownOffsets.ObjectData, trackDataMontreal.KnownOffsets.TrackData);
+
+            using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackDataMontreal.Path)))
+            {
+                _montrealObjectSettings = TrackObjectSettingsReader.Read(reader,
+                    trackDataMontreal.KnownOffsets.ObjectData, trackDataMontreal.KnownOffsets.TrackData);
+            }
 
             var trackDataSilverstone = TrackFactsHelper.GetTrackSilverstone();
-            _silverstoneObjectSettings = TrackObjectSettingsReader.Read(trackDataSilverstone.Path,
-                trackDataSilverstone.KnownOffsets.ObjectData, trackDataSilverstone.KnownOffsets.TrackData);
+
+            using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackDataSilverstone.Path)))
+            {
+                _silverstoneObjectSettings = TrackObjectSettingsReader.Read(reader,
+                    trackDataSilverstone.KnownOffsets.ObjectData, trackDataSilverstone.KnownOffsets.TrackData);
+            }
         }
 
         [Fact]

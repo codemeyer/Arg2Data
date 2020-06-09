@@ -13,7 +13,7 @@
     <PackageIconUrl></PackageIconUrl>
     <VersionPrefix>0.1.1</VersionPrefix>
     <VersionSuffix></VersionSuffix>
-    <Version>0.2</Version>
+    <Version>0.3</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>arg2data-64x64.png</PackageIcon>
   </PropertyGroup>

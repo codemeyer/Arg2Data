@@ -5,6 +5,31 @@ namespace Arg2Data.Internals
 {
     internal static class TrackSectionCommandFactory
     {
+        //public static TrackSectionCommand Create(byte command)
+        //{
+        //    ValidateCommand(command);
+
+        //    int count = ArgumentCount[command];
+        //    short[] arguments = new short[count];
+
+        //    return new TrackSectionCommand(command, arguments);
+        //}
+
+        //private static void ValidateCommand(byte command)
+        //{
+        //    if (!ArgumentCount.ContainsKey(command))
+        //    {
+        //        var message = $"Invalid command, must be between {MinArgumentValue} and {MaxArgumentValue}";
+        //        throw new ArgumentOutOfRangeException(nameof(command), message);
+        //    }
+        //}
+
+        //private const byte MinArgumentValue = 0x80;
+
+        //private const byte MaxArgumentValue = 0xe0;
+
+
+
         public static TrackSectionCommand Get(byte command, short[] arguments)
         {
             return new TrackSectionCommand(command, arguments);

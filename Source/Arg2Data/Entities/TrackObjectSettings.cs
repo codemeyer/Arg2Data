@@ -29,13 +29,13 @@ namespace Arg2Data.Entities
 
         /// <summary>
         /// Gets the X angle of the object.
-        ///
-        /// When Id is 5, 13 (and others) this refers to the Id of internal "billboard" objects.
         /// </summary>
         public short AngleX { get; set; }
 
         /// <summary>
         /// Gets the Y angle of the object.
+        ///
+        /// When Id is 5, 13 (and others) this refers to the Id of internal "billboard" objects.
         /// </summary>
         public short AngleY { get; set; }
 

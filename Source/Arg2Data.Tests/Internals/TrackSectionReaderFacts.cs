@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using Arg2Data.Entities;
 using Arg2Data.Internals;
 using FluentAssertions;
@@ -14,12 +15,20 @@ namespace Arg2Data.Tests.Internals
         public TrackSectionReaderFacts()
         {
             var trackDataMontreal = TrackFactsHelper.GetTrackMontreal();
-            _montrealTrackSections = TrackSectionReader.Read(trackDataMontreal.Path, trackDataMontreal.KnownTrackSectionDataStart,
-                new TrackSectionCommandOptions { Command0xC5Length= 7 });
+
+            using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackDataMontreal.Path)))
+            {
+                _montrealTrackSections = TrackSectionReader.Read(reader, trackDataMontreal.KnownTrackSectionDataStart,
+                    new TrackSectionCommandOptions { Command0xC5Length= 7 });
+            }
 
             var trackDataSilverstone = TrackFactsHelper.GetTrackSilverstone();
-            _silverstoneTrackSections = TrackSectionReader.Read(trackDataSilverstone.Path, trackDataSilverstone.KnownTrackSectionDataStart,
-                new TrackSectionCommandOptions { Command0xC5Length= 8 });
+
+            using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackDataSilverstone.Path)))
+            {
+                _silverstoneTrackSections = TrackSectionReader.Read(reader, trackDataSilverstone.KnownTrackSectionDataStart,
+                    new TrackSectionCommandOptions { Command0xC5Length= 8 });
+            }
         }
 
         [Fact]
@@ -140,7 +149,6 @@ namespace Arg2Data.Tests.Internals
             section.RoadSignArrow.Should().BeFalse();
             section.RoadSignArrow100.Should().BeFalse();
         }
-
 
         [Fact]
         public void Montreal_Section0_HasCommands()

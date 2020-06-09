@@ -1,44 +1,41 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Arg2Data.Entities;
-using Arg2Data.IO;
 
 namespace Arg2Data.Internals
 {
     internal static class ObjectShapesReader
     {
-        public static List<TrackObjectShape> Read(string path, int trackOffset)
+        public static List<TrackObjectShape> Read(BinaryReader reader, int trackOffset)
         {
-            var trackFileReader = new FileReader(path);
+            reader.BaseStream.Position = 4124;
 
-            const short startPosition = 4124;
-            int pos = startPosition;
+            short count = reader.ReadInt16();
 
-            short count = trackFileReader.ReadInt16(pos);
-
-            pos += 4;
+            reader.BaseStream.Position += 2;
 
             var offsets = new List<int>();
 
             // list of offsets
             for (int i = 0; i < count; i++)
             {
-                int offset = trackFileReader.ReadInt32(pos);
+                int offset = reader.ReadInt32();
                 offsets.Add(offset);
-
-                pos += 4;
             }
 
             var objects = new List<TrackObjectShape>();
+
+            // huh?
+            var startPos = 4128;
 
             var sortedOffsets = new List<int>();
             foreach (var offset in offsets)
             {
                 sortedOffsets.Add(offset);
             }
-            sortedOffsets.Sort();
 
-            var startPos = 4128;
+            sortedOffsets.Sort();
 
             // foreach offset, read data between offset location and next offset location
             for (int headerIndex = 0; headerIndex < offsets.Count; headerIndex++)
@@ -59,14 +56,15 @@ namespace Arg2Data.Internals
                 var readFrom = startPos + loopOffset;
                 var lengthToRead = nextOffset - loopOffset;
 
-                byte[] data = trackFileReader.ReadBytes(readFrom, lengthToRead);
+                reader.BaseStream.Position = readFrom;
+                byte[] data = reader.ReadBytes(lengthToRead);
 
                 var dataIndex = sortedOffsets.IndexOf(loopOffset);
 
                 var shape = new TrackObjectShape(headerIndex, dataIndex);
                 shape.AllData = data;
 
-                // TODO: put stuff in separate Data lumps
+                //UpdateDataProperties(obj, data, readFrom);
 
                 objects.Add(shape);
             }

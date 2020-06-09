@@ -22,26 +22,26 @@ namespace Arg2Data
 
             using (var reader = new BinaryReader(StreamProvider(path)))
             {
-                track.Offsets = OffsetReader.Read(path);
+                track.Offsets = OffsetReader.Read(reader);
 
-                track.ObjectShapes = ObjectShapesReader.Read(path, track.Offsets.ObjectData);
-                track.ObjectSettings = TrackObjectSettingsReader.Read(path, track.Offsets.ObjectData, track.Offsets.TrackData);
-                track.TrackDataHeader = TrackSectionHeaderReader.Read(path, track.Offsets.TrackData);
+                track.ObjectShapes = ObjectShapesReader.Read(reader, track.Offsets.ObjectData);
+                track.ObjectSettings = TrackObjectSettingsReader.Read(reader, track.Offsets.ObjectData, track.Offsets.TrackData);
+                track.TrackDataHeader = TrackSectionHeaderReader.Read(reader, track.Offsets.TrackData);
 
                 var options = new TrackSectionCommandOptions();
                 options.Command0xC5Length = track.TrackDataHeader.CommandLength0xC5;
 
-                var sectionReading = TrackSectionReader.Read(path, track.Offsets.TrackData + track.TrackDataHeader.GetHeaderLength(), options);
+                var sectionReading = TrackSectionReader.Read(reader, track.Offsets.TrackData + track.TrackDataHeader.GetHeaderLength(), options);
                 track.TrackSections = sectionReading.TrackSections;
 
-                var bestLines = BestLineReader.Read(path, sectionReading.Position);
-                track.ComputerCarLineHeader = bestLines.Header;
-                track.ComputerCarLineSegments = bestLines.Segments;
+                var lines = ComputerCarLineReader.Read(reader, sectionReading.Position);
+                track.ComputerCarLineHeader = lines.Header;
+                track.ComputerCarLineSegments = lines.Segments;
 
                 var setup = ComputerCarDataReader.Read(reader, track.Offsets.ComputerCarSetup);
                 track.ComputerCarSetup = setup.Setup;
 
-                var pitlaneResult = TrackSectionReader.Read(path, track.Offsets.PitLaneData, options);
+                var pitlaneResult = TrackSectionReader.Read(reader, track.Offsets.PitLaneData, options);
                 track.PitLaneSections = pitlaneResult.TrackSections;
 
                 reader.BaseStream.Position = pitlaneResult.Position;

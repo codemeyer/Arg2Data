@@ -1,23 +1,23 @@
+using System.IO;
 using Arg2Data.Entities;
-using Arg2Data.IO;
 
 namespace Arg2Data.Internals
 {
     internal static class OffsetReader
     {
-        public static TrackOffsets Read(string path)
+        public static TrackOffsets Read(BinaryReader reader)
         {
-            var trackFileReader = new FileReader(path);
+            reader.BaseStream.Position = 4096;
 
             return new TrackOffsets
             {
-                UnknownLong1 = trackFileReader.ReadInt32(4096),
-                UnknownLong2 = trackFileReader.ReadInt32(4100),
-                ChecksumPosition = trackFileReader.ReadInt16(4104) + 4128,
-                ObjectData = trackFileReader.ReadInt32(4108) + 4128,
-                TrackData = trackFileReader.ReadInt32(4112) + 4128,
-                ComputerCarSetup = trackFileReader.ReadInt32(0x1014) + 4128,
-                PitLaneData = trackFileReader.ReadInt32(0x1018) + 4128
+                UnknownLong1 = reader.ReadInt32(),
+                UnknownLong2 = reader.ReadInt32(),
+                ChecksumPosition = reader.ReadInt32() + 4128,
+                ObjectData = reader.ReadInt32() + 4128,
+                TrackData = reader.ReadInt32() + 4128,
+                ComputerCarSetup = reader.ReadInt32() + 4128,
+                PitLaneData = reader.ReadInt32() + 4128
             };
         }
     }

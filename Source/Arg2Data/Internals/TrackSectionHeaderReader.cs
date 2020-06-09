@@ -1,45 +1,56 @@
-﻿using Arg2Data.Entities;
-using Arg2Data.IO;
+﻿using System.IO;
+using Arg2Data.Entities;
 
 namespace Arg2Data.Internals
 {
     internal static class TrackSectionHeaderReader
     {
-        public static TrackSectionHeader Read(string path, int offset)
+        public static TrackSectionHeader Read(BinaryReader reader, int offset)
         {
-            var trackFileReader = new FileReader(path);
+            reader.BaseStream.Position = offset + 14;
+            short pitsValue = reader.ReadInt16();
 
-            byte kerbTypeByte = trackFileReader.ReadByte(offset + 18);
-            short pitsValue = trackFileReader.ReadInt16(offset + 14);
+            reader.BaseStream.Position = offset + 18;
+            byte kerbTypeByte = reader.ReadByte();
+
+            reader.BaseStream.Position = offset;
 
             var header = new TrackSectionHeader
             {
-                FirstSectionAngle = trackFileReader.ReadUInt16(offset),
-                FirstSectionHeight = trackFileReader.ReadInt16(offset + 2),
-                // is this order really different, or it TrackEditor mixing stuff up?
-                TrackCenterX = trackFileReader.ReadInt16(offset + 8),
-                TrackCenterZ = trackFileReader.ReadInt16(offset + 6),
-                TrackCenterY = trackFileReader.ReadInt16(offset + 4),
-                StartWidth = trackFileReader.ReadInt16(offset + 10),
-                PoleSide = trackFileReader.ReadInt16(offset + 12) == -768 ? TrackSide.Left : TrackSide.Right,
-                PitsSide = GetPitsSide(pitsValue),
-
-                CommandLength0xC5 = GetCommandLength(pitsValue),
-
-                RightVergeStartWidth = trackFileReader.ReadByte(offset + 16),
-                LeftVergeStartWidth = trackFileReader.ReadByte(offset + 17),
-                KerbType = GetKerbType(kerbTypeByte),
-                KerbUpperColor = trackFileReader.ReadByte(offset + 22),
-                KerbLowerColor = trackFileReader.ReadByte(offset + 24)
+                FirstSectionAngle = reader.ReadUInt16(),
+                FirstSectionHeight = reader.ReadInt16(),
+                TrackCenterY = reader.ReadInt16(),
+                TrackCenterZ = reader.ReadInt16(),
+                TrackCenterX = reader.ReadInt16(),
+                StartWidth = reader.ReadInt16(),
+                PoleSide = GetPoleSide(reader.ReadInt16()),
+                PitsSide = GetPitsSide(reader.ReadInt16()),
+                RightVergeStartWidth = reader.ReadByte(),
+                LeftVergeStartWidth = reader.ReadByte()
             };
+
+            header.CommandLength0xC5 = GetCommandLength(pitsValue);
+
+            header.KerbType = GetKerbType(kerbTypeByte);
+            reader.BaseStream.Position = offset + 22;
+            header.KerbUpperColor = reader.ReadByte();
+            reader.BaseStream.Position = offset + 24;
+            header.KerbLowerColor = reader.ReadByte();
 
             if (header.KerbType == KerbType.TripleColor)
             {
-                header.KerbUpperColor2 = trackFileReader.ReadByte(offset + 28);
-                header.KerbLowerColor2 = trackFileReader.ReadByte(offset + 30);
+                reader.BaseStream.Position = offset + 28;
+                header.KerbUpperColor2 = reader.ReadByte();
+                reader.BaseStream.Position = offset + 30;
+                header.KerbLowerColor2 = reader.ReadByte();
             }
 
             return header;
+        }
+
+        private static TrackSide GetPoleSide(short poleSide)
+        {
+            return poleSide == -768 ? TrackSide.Left : TrackSide.Right;
         }
 
         private static TrackSide GetPitsSide(short pitsValue)
@@ -47,7 +58,7 @@ namespace Arg2Data.Internals
             int isSet2 = pitsValue & 2;
             int isSet8 = pitsValue & 8;
 
-            return (isSet2 + isSet8 == 10) ? TrackSide.Left : TrackSide.Right;
+            return isSet2 + isSet8 == 10 ? TrackSide.Left : TrackSide.Right;
         }
 
         private static int GetCommandLength(short pitsValue)

@@ -23,9 +23,9 @@ namespace Arg2Data.Tests.Internals
         }
 
         [Fact]
-        public void Montreal_SectionCount_78()
+        public void Montreal_SectionCount_79()
         {
-            _montrealTrackSections.TrackSections.Count.Should().Be(78);
+            _montrealTrackSections.TrackSections.Count.Should().Be(79, "contains 78 normal sections and 1 with only command data");
         }
 
         [Fact]
@@ -174,7 +174,7 @@ namespace Arg2Data.Tests.Internals
         [Fact]
         public void Silverstone_SectionCount_125()
         {
-            _silverstoneTrackSections.TrackSections.Count.Should().Be(125);
+            _silverstoneTrackSections.TrackSections.Count.Should().Be(126, "contains 125 normal sections and 1 with only command data");
         }
     }
 }

@@ -6,6 +6,14 @@ namespace Arg2Data.Tests
 {
     public static class TrackFactsHelper
     {
+        public static TestTrackKnownData GetTrackPhoenix8990()
+        {
+            return new TestTrackKnownData
+            {
+                Path = $"{BasePath}Phoenix_USA_1989-1990.dat"
+            };
+        }
+
         public static TestTrackKnownData GetTrackAida()
         {
             return new TestTrackKnownData

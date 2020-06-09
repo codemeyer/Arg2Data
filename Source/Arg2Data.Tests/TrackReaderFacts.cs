@@ -40,7 +40,7 @@ namespace Arg2Data.Tests
             var trackReader = new TrackReader();
             var track = trackReader.Read(trackData.Path);
 
-            track.TrackSections.Count.Should().Be(78);
+            track.TrackSections.Count.Should().Be(79, "contains 78 normal sections and 1 with only command data");
             track.PitLaneSections.Count.Should().Be(26);
             track.ComputerCarLineSegments.Count.Should().Be(48);
             track.ObjectShapes.Count.Should().Be(31);
@@ -59,7 +59,18 @@ namespace Arg2Data.Tests
             var trackReader = new TrackReader();
             var track = trackReader.Read(trackData.Path);
 
-            track.TrackSections.Count.Should().Be(125);
+            track.TrackSections.Count.Should().Be(126, "contains 125 sections and 1 with only command data");
+        }
+
+        [Fact]
+        public void Phoenix8990_Contains_22_PitLane_Sections()
+        {
+            var trackData = TrackFactsHelper.GetTrackPhoenix8990();
+            var trackReader = new TrackReader();
+            var track = trackReader.Read(trackData.Path);
+
+            track.PitLaneSections.Count.Should().Be(22);
+            track.PitLaneSections[20].Length.Should().Be(0);
         }
     }
 }

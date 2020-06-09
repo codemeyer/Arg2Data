@@ -23,6 +23,12 @@ namespace Arg2Data.Internals
 
                 if (byte1 == 255 && byte2 == 255)
                 {
+                    if (currentSection.Commands.Count > 0)
+                    {
+                        // section with length 0, but has commands
+                        sections.Add(currentSection);
+                    }
+
                     break;
                 }
 
@@ -49,21 +55,18 @@ namespace Arg2Data.Internals
                     continue;
                 }
 
-                if (byte1 > 0)
-                {
-                    // section
-                    currentSection.Length = byte1;
-                    currentSection.Curvature = trackFileReader.ReadInt16(currentPosition + 2);
-                    currentSection.Height = trackFileReader.ReadInt16(currentPosition + 4);
-                    currentSection.Flags = trackFileReader.ReadInt16(currentPosition + 6);
-                    currentSection.RightVergeWidth = trackFileReader.ReadByte(currentPosition + 8);
-                    currentSection.LeftVergeWidth = trackFileReader.ReadByte(currentPosition + 9);
-                    sections.Add(currentSection);
+                // section
+                currentSection.Length = byte1;
+                currentSection.Curvature = trackFileReader.ReadInt16(currentPosition + 2);
+                currentSection.Height = trackFileReader.ReadInt16(currentPosition + 4);
+                currentSection.Flags = trackFileReader.ReadInt16(currentPosition + 6);
+                currentSection.RightVergeWidth = trackFileReader.ReadByte(currentPosition + 8);
+                currentSection.LeftVergeWidth = trackFileReader.ReadByte(currentPosition + 9);
+                sections.Add(currentSection);
 
-                    currentSection = new TrackSection();
+                currentSection = new TrackSection();
 
-                    currentPosition += 10;
-                }
+                currentPosition += 10;
             }
 
             return new TrackSectionReadingResult(currentPosition + 2, sections);

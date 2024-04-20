@@ -5,184 +5,183 @@ using Arg2Data.Internals;
 using FluentAssertions;
 using Xunit;
 
-namespace Arg2Data.Tests.Internals
+namespace Arg2Data.Tests.Internals;
+
+public class TrackSectionReaderFacts
 {
-    public class TrackSectionReaderFacts
+    private readonly TrackSectionReadingResult _montrealTrackSections;
+    private readonly TrackSectionReadingResult _silverstoneTrackSections;
+
+    public TrackSectionReaderFacts()
     {
-        private readonly TrackSectionReadingResult _montrealTrackSections;
-        private readonly TrackSectionReadingResult _silverstoneTrackSections;
+        var trackDataMontreal = TrackFactsHelper.GetTrackMontreal();
 
-        public TrackSectionReaderFacts()
+        using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackDataMontreal.Path)))
         {
-            var trackDataMontreal = TrackFactsHelper.GetTrackMontreal();
-
-            using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackDataMontreal.Path)))
-            {
-                _montrealTrackSections = TrackSectionReader.Read(reader, trackDataMontreal.KnownTrackSectionDataStart,
-                    new TrackSectionCommandOptions { Command0xC5Length= 7 });
-            }
-
-            var trackDataSilverstone = TrackFactsHelper.GetTrackSilverstone();
-
-            using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackDataSilverstone.Path)))
-            {
-                _silverstoneTrackSections = TrackSectionReader.Read(reader, trackDataSilverstone.KnownTrackSectionDataStart,
-                    new TrackSectionCommandOptions { Command0xC5Length= 8 });
-            }
+            _montrealTrackSections = TrackSectionReader.Read(reader, trackDataMontreal.KnownTrackSectionDataStart,
+                new TrackSectionCommandOptions { Command0xC5Length = 7 });
         }
 
-        [Fact]
-        public void Montreal_SectionCount_79()
+        var trackDataSilverstone = TrackFactsHelper.GetTrackSilverstone();
+
+        using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackDataSilverstone.Path)))
         {
-            _montrealTrackSections.TrackSections.Count.Should().Be(79, "contains 78 normal sections and 1 with only command data");
+            _silverstoneTrackSections = TrackSectionReader.Read(reader, trackDataSilverstone.KnownTrackSectionDataStart,
+                new TrackSectionCommandOptions { Command0xC5Length = 8 });
         }
+    }
 
-        [Fact]
-        public void Montreal_Section0_HasCorrectProperties()
-        {
-            var section = _montrealTrackSections.TrackSections.First();
+    [Fact]
+    public void Montreal_SectionCount_79()
+    {
+        _montrealTrackSections.TrackSections.Count.Should().Be(79, "contains 78 normal sections and 1 with only command data");
+    }
 
-            section.Length.Should().Be(9);
-            section.Height.Should().Be(0);
-            section.Curvature.Should().Be(0);
-            section.LeftVergeWidth.Should().Be(8);
-            section.RightVergeWidth.Should().Be(16);
-            section.HasLeftKerb.Should().BeFalse();
-            section.HasRightKerb.Should().BeFalse();
-            section.BridgedLeftFence.Should().BeFalse();
-            section.BridgedRightFence.Should().BeFalse();
-            section.RemoveLeftWall.Should().BeFalse();
-            section.RemoveRightWall.Should().BeFalse();
-            section.PitLaneEntrance.Should().BeFalse();
-            section.PitLaneExit.Should().BeFalse();
-        }
+    [Fact]
+    public void Montreal_Section0_HasCorrectProperties()
+    {
+        var section = _montrealTrackSections.TrackSections.First();
 
-        [Fact]
-        public void Montreal_Section4_HasCurvature()
-        {
-            var section = _montrealTrackSections.TrackSections[4];
+        section.Length.Should().Be(9);
+        section.Height.Should().Be(0);
+        section.Curvature.Should().Be(0);
+        section.LeftVergeWidth.Should().Be(8);
+        section.RightVergeWidth.Should().Be(16);
+        section.HasLeftKerb.Should().BeFalse();
+        section.HasRightKerb.Should().BeFalse();
+        section.BridgedLeftFence.Should().BeFalse();
+        section.BridgedRightFence.Should().BeFalse();
+        section.RemoveLeftWall.Should().BeFalse();
+        section.RemoveRightWall.Should().BeFalse();
+        section.PitLaneEntrance.Should().BeFalse();
+        section.PitLaneExit.Should().BeFalse();
+    }
 
-            section.Curvature.Should().Be(339);
-        }
+    [Fact]
+    public void Montreal_Section4_HasCurvature()
+    {
+        var section = _montrealTrackSections.TrackSections[4];
 
-        [Fact]
-        public void Montreal_Section11_HasBridgedWallsAndNoWalls()
-        {
-            var section = _montrealTrackSections.TrackSections[11];
+        section.Curvature.Should().Be(339);
+    }
 
-            section.BridgedLeftFence.Should().BeTrue();
-            section.BridgedRightFence.Should().BeTrue();
-            section.RemoveLeftWall.Should().BeTrue();
-            section.RemoveRightWall.Should().BeTrue();
-        }
+    [Fact]
+    public void Montreal_Section11_HasBridgedWallsAndNoWalls()
+    {
+        var section = _montrealTrackSections.TrackSections[11];
 
-        [Fact]
-        public void Montreal_Section11_HasRoadSignArrow()
-        {
-            var section = _montrealTrackSections.TrackSections[11];
+        section.BridgedLeftFence.Should().BeTrue();
+        section.BridgedRightFence.Should().BeTrue();
+        section.RemoveLeftWall.Should().BeTrue();
+        section.RemoveRightWall.Should().BeTrue();
+    }
 
-            section.RoadSignArrow.Should().BeTrue();
-        }
+    [Fact]
+    public void Montreal_Section11_HasRoadSignArrow()
+    {
+        var section = _montrealTrackSections.TrackSections[11];
 
-        [Fact]
-        public void Montreal_Section14_HasHighRightKerb()
-        {
-            var section = _montrealTrackSections.TrackSections[14];
+        section.RoadSignArrow.Should().BeTrue();
+    }
 
-            section.HasRightKerb.Should().BeTrue();
-            section.KerbHeight.Should().Be(KerbHeight.High);
-        }
+    [Fact]
+    public void Montreal_Section14_HasHighRightKerb()
+    {
+        var section = _montrealTrackSections.TrackSections[14];
 
-        [Fact]
-        public void Montreal_Section17_HasHeight()
-        {
-            var section = _montrealTrackSections.TrackSections[17];
+        section.HasRightKerb.Should().BeTrue();
+        section.KerbHeight.Should().Be(KerbHeight.High);
+    }
 
-            section.Height.Should().Be(37);
-        }
+    [Fact]
+    public void Montreal_Section17_HasHeight()
+    {
+        var section = _montrealTrackSections.TrackSections[17];
 
-        [Fact]
-        public void Montreal_Section22_HasHighLeftKerb()
-        {
-            var section = _montrealTrackSections.TrackSections[22];
+        section.Height.Should().Be(37);
+    }
 
-            section.HasLeftKerb.Should().BeTrue();
-            section.KerbHeight.Should().Be(KerbHeight.High);
-        }
+    [Fact]
+    public void Montreal_Section22_HasHighLeftKerb()
+    {
+        var section = _montrealTrackSections.TrackSections[22];
 
-        [Fact]
-        public void Montreal_Section23_HasLowRightKerb()
-        {
-            var section = _montrealTrackSections.TrackSections[23];
+        section.HasLeftKerb.Should().BeTrue();
+        section.KerbHeight.Should().Be(KerbHeight.High);
+    }
 
-            section.HasRightKerb.Should().BeTrue();
-            section.KerbHeight.Should().Be(KerbHeight.Low);
-        }
+    [Fact]
+    public void Montreal_Section23_HasLowRightKerb()
+    {
+        var section = _montrealTrackSections.TrackSections[23];
 
-        [Fact]
-        public void Montreal_Section40_HasRoadSignsCombo()
-        {
-            var section = _montrealTrackSections.TrackSections[40];
+        section.HasRightKerb.Should().BeTrue();
+        section.KerbHeight.Should().Be(KerbHeight.Low);
+    }
 
-            section.RoadSignArrow.Should().BeTrue();
-            section.RoadSigns.Should().BeTrue();
-            section.RoadSignArrow100.Should().BeFalse();
-        }
+    [Fact]
+    public void Montreal_Section40_HasRoadSignsCombo()
+    {
+        var section = _montrealTrackSections.TrackSections[40];
 
-        [Fact]
-        public void Montreal_Section44_HasUnknown3Set()
-        {
-            var section = _montrealTrackSections.TrackSections[44];
+        section.RoadSignArrow.Should().BeTrue();
+        section.RoadSigns.Should().BeTrue();
+        section.RoadSignArrow100.Should().BeFalse();
+    }
 
-            section.Unknown3.Should().BeTrue();
-            section.Unknown1.Should().BeFalse();
-            section.Unknown2.Should().BeFalse();
-            section.Unknown4.Should().BeFalse();
-        }
+    [Fact]
+    public void Montreal_Section44_HasUnknown3Set()
+    {
+        var section = _montrealTrackSections.TrackSections[44];
 
-        [Fact]
-        public void Montreal_Section49_HasRoadSigns300200100()
-        {
-            var section = _montrealTrackSections.TrackSections[49];
+        section.Unknown3.Should().BeTrue();
+        section.Unknown1.Should().BeFalse();
+        section.Unknown2.Should().BeFalse();
+        section.Unknown4.Should().BeFalse();
+    }
 
-            section.RoadSigns.Should().BeTrue();
-            section.RoadSignArrow.Should().BeFalse();
-            section.RoadSignArrow100.Should().BeFalse();
-        }
+    [Fact]
+    public void Montreal_Section49_HasRoadSigns300200100()
+    {
+        var section = _montrealTrackSections.TrackSections[49];
 
-        [Fact]
-        public void Montreal_Section0_HasCommands()
-        {
-            var section = _montrealTrackSections.TrackSections[0];
+        section.RoadSigns.Should().BeTrue();
+        section.RoadSignArrow.Should().BeFalse();
+        section.RoadSignArrow100.Should().BeFalse();
+    }
 
-            section.Commands.Count.Should().Be(26);
-        }
+    [Fact]
+    public void Montreal_Section0_HasCommands()
+    {
+        var section = _montrealTrackSections.TrackSections[0];
 
-        [Fact]
-        public void Montreal_Section5_Command1()
-        {
-            var command = _montrealTrackSections.TrackSections[5].Commands[1];
+        section.Commands.Count.Should().Be(26);
+    }
 
-            command.Command.Should().Be(0x80);
-            command.Arguments[0].Should().Be(0);
-            command.Arguments[1].Should().Be(800);
-        }
+    [Fact]
+    public void Montreal_Section5_Command1()
+    {
+        var command = _montrealTrackSections.TrackSections[5].Commands[1];
 
-        [Fact]
-        public void Montreal_Section77_Command1()
-        {
-            var command = _montrealTrackSections.TrackSections[77].Commands[1];
+        command.Command.Should().Be(0x80);
+        command.Arguments[0].Should().Be(0);
+        command.Arguments[1].Should().Be(800);
+    }
 
-            command.Command.Should().Be(0xAF);
-            command.Arguments[0].Should().Be(0);
-            command.Arguments[1].Should().Be(-16384);
-            command.Arguments[2].Should().Be(16384);
-        }
+    [Fact]
+    public void Montreal_Section77_Command1()
+    {
+        var command = _montrealTrackSections.TrackSections[77].Commands[1];
 
-        [Fact]
-        public void Silverstone_SectionCount_125()
-        {
-            _silverstoneTrackSections.TrackSections.Count.Should().Be(126, "contains 125 normal sections and 1 with only command data");
-        }
+        command.Command.Should().Be(0xAF);
+        command.Arguments[0].Should().Be(0);
+        command.Arguments[1].Should().Be(-16384);
+        command.Arguments[2].Should().Be(16384);
+    }
+
+    [Fact]
+    public void Silverstone_SectionCount_125()
+    {
+        _silverstoneTrackSections.TrackSections.Count.Should().Be(126, "contains 125 normal sections and 1 with only command data");
     }
 }

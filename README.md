@@ -1,7 +1,7 @@
 # Arg2Data
 
 Arg2Data is small, functionally limited .NET library for reading
-[Microprose Grand Prix 2](https://en.wikipedia.org/wiki/Grand_Prix_2) (GP2) track data.
+[MicroProse Grand Prix 2](https://en.wikipedia.org/wiki/Grand_Prix_2) (GP2) track data.
 
 
 ### API functionality

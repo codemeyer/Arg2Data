@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
-using Arg2Data.Entities;
+﻿using Arg2Data.Entities;
 
-namespace Arg2Data.Internals
+namespace Arg2Data.Internals;
+
+internal class TrackComputerCarLineReadingResult
 {
-    internal class TrackComputerCarLineReadingResult
+    public TrackComputerCarLineReadingResult(int positionAfterReading, TrackComputerCarLineHeader header, List<TrackComputerCarLineSegment> segments)
     {
-        public TrackComputerCarLineReadingResult(int positionAfterReading, TrackComputerCarLineHeader header, List<TrackComputerCarLineSegment> segments)
-        {
-            PositionAfterReading = positionAfterReading;
-            Header = header;
-            Segments = segments;
-        }
-
-        public int PositionAfterReading { get; private set; }
-
-        public TrackComputerCarLineHeader Header { get; set; }
-
-        public List<TrackComputerCarLineSegment> Segments { get; set; }
+        PositionAfterReading = positionAfterReading;
+        Header = header;
+        Segments = segments;
     }
+
+    public int PositionAfterReading { get; private set; }
+
+    public TrackComputerCarLineHeader Header { get; set; }
+
+    public List<TrackComputerCarLineSegment> Segments { get; set; }
 }

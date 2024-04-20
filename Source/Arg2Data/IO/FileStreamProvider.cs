@@ -1,12 +1,9 @@
-﻿using System.IO;
+﻿namespace Arg2Data.IO;
 
-namespace Arg2Data.IO
+internal static class FileStreamProvider
 {
-    internal static class FileStreamProvider
+    public static Stream Open(string path)
     {
-        public static Stream Open(string path)
-        {
-            return File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        }
+        return File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
     }
 }

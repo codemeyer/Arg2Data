@@ -3,21 +3,18 @@ using Arg2Data.Internals;
 using FluentAssertions;
 using Xunit;
 
-namespace Arg2Data.Tests.Internals
+namespace Arg2Data.Tests.Internals;
+
+public class TrackSettingsReaderFacts
 {
-    public class TrackSettingsReaderFacts
+    [Fact]
+    public void Read_MontrealTrack_HasExpectedBehaviorData()
     {
-        [Fact]
-        public void Read_MontrealTrack_HasExpectedBehaviorData()
-        {
             var trackData = TrackFactsHelper.GetTrackMontreal();
 
-            using (var reader = new BinaryReader(MemoryStreamProvider.Open(trackData.Path)))
-            {
-                var settings = TrackSettingsReader.Read(reader, trackData.KnownComputerCarBehaviorStart);
+            using var reader = new BinaryReader(MemoryStreamProvider.Open(trackData.Path));
+            var settings = TrackSettingsReader.Read(reader, trackData.KnownComputerCarBehaviorStart);
 
-                settings.LapCount.Should().Be(69);
-            }
-        }
+            settings.LapCount.Should().Be(69);
     }
 }

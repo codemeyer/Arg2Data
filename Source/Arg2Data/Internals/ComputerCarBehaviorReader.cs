@@ -1,13 +1,11 @@
-﻿using System.IO;
-using Arg2Data.Entities;
+﻿using Arg2Data.Entities;
 
-namespace Arg2Data.Internals
+namespace Arg2Data.Internals;
+
+internal static class ComputerCarBehaviorReader
 {
-    internal static class ComputerCarBehaviorReader
+    internal static ComputerCarBehavior Read(BinaryReader reader, int position)
     {
-        internal static ComputerCarBehavior Read(BinaryReader reader, int position)
-        {
-            return new ComputerCarBehavior();
-        }
+        return new ComputerCarBehavior();
     }
 }

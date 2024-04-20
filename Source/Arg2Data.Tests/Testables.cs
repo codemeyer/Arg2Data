@@ -1,17 +1,16 @@
 ﻿using System.Collections.Concurrent;
 using System.IO;
 
-namespace Arg2Data.Tests
+namespace Arg2Data.Tests;
+
+internal static class MemoryStreamProvider
 {
-    internal static class MemoryStreamProvider
+    private static readonly ConcurrentDictionary<string, byte[]> FilesAndBytes = new();
+
+    public static Stream Open(string path)
     {
-        private static readonly ConcurrentDictionary<string, byte[]> FilesAndBytes = new ConcurrentDictionary<string, byte[]>();
+        var bytes = FilesAndBytes.GetOrAdd(path, File.ReadAllBytes(path));
 
-        public static Stream Open(string path)
-        {
-            var bytes = FilesAndBytes.GetOrAdd(path, File.ReadAllBytes(path));
-
-            return new MemoryStream(bytes);
-        }
+        return new MemoryStream(bytes);
     }
 }

@@ -1,14 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45;net40</TargetFrameworks>
+    <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Authors>Fredrik Meyer</Authors>
     <Description>API for reading track data for Grand Prix 2 by Microprose</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/codemeyer/Arg2Data</PackageProjectUrl>
     <RepositoryUrl>https://github.com/codemeyer/Arg2Data</RepositoryUrl>
     <PackageLicenseUrl></PackageLicenseUrl>
-    <Copyright>Copyright © 2018-2020 Fredrik Meyer</Copyright>
+    <Copyright>Copyright © 2018-2024 Fredrik Meyer</Copyright>
     <PackageTags>GP2</PackageTags>
     <PackageIconUrl></PackageIconUrl>
     <VersionPrefix>0.4</VersionPrefix>
@@ -39,6 +44,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Arg2Data.Tests" />
   </ItemGroup>
 
 </Project>
